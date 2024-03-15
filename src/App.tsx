@@ -6,7 +6,6 @@ function App() {
   return (
     <>
     <Canvas/>
-    <div>testetst223232</div>
     </>
   )
 }
