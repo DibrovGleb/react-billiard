@@ -2,6 +2,7 @@
   "name": "react-billiard",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://dibrovgleb.github.io/react-billiard/",
   "type": "module",
   "scripts": {
     "dev": "vite",
