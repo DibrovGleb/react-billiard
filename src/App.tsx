@@ -1,5 +1,4 @@
-import { useState } from 'react';
-
+//import { useState } from 'react';
 import Canvas from './components/canvas';
 
 function App() {
@@ -7,6 +6,7 @@ function App() {
   return (
     <>
     <Canvas/>
+    <div>testetst223232</div>
     </>
   )
 }

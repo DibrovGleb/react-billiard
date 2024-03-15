@@ -11,7 +11,7 @@ const Canvas:FC = () => {
       return color;
    }      
 
-   function createRect () {
+   function createRect ():void {
       r.push([...Array(4)].map(()=>Math.round(Math.random()*30)+15).concat([...Array(2)].map(()=>Number((Math.random()*1.5).toFixed(2)))).concat(getRandomColor()))
    }
    const r: (string | number)[][]  =[],
