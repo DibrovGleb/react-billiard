@@ -1,0 +1,28 @@
+canvas
+    border: 1px solid black
+
+.btn-container
+    padding: 10px
+    text-align: center
+
+    @for $i from 1 through 4
+        button:nth-child(#{$i})
+            box-shadow: -6+$i*3-1+px 3px 3px #646464b2
+    button
+        margin: 5px
+        padding: 10px 15px
+        border: 2px ridge black
+        font: 15px bold 
+        border-radius: 5px
+        background: #ffff
+        cursor: pointer
+        transition: background 0.2s linear,transform 0.2s ease-in-out, opacity 0.5s linear, box-shadow 0.5s,border 0.3s ease-in-out
+        &:hover
+            background: #ffffff
+            opacity: 0.8
+            box-shadow: none
+            border: 2px ridge #41ffff
+    @for $i from 1 through 4
+        button:nth-child(#{$i})
+            &:hover
+                 transform: translate(-6+$i*3+px,5px)

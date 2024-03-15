@@ -1,0 +1,44 @@
+*
+    box-sizing: border-box
+    margin: 0
+    padding: 0
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Roboto&display=swap')
+%font-roboto
+    font-family: 'Roboto', sans-serif
+    
+%font-caveat
+    font: 1.8em 'Caveat', cursive
+
+body
+    margin:0
+    padding:0
+    width: 100vw
+    height: 100vh
+    background: #cacaca56
+    #root
+        display: grid
+        justify-content: center
+        padding: 10px
+    .btn, label,h1
+        @extend %font-roboto
+    .new-item-form
+        display: inherit
+        justify-items: center
+        gap: 5px
+        #item
+            margin: 5px 0
+            padding: 5px
+            width: max(130px, 30vw)
+            border: 0
+            border-radius: 5px
+            background: #ffffff
+            outline: 0
+        .btn
+            padding: 5px 20px
+            border: 0
+            border-radius: 2px
+    .list
+        label
+            @extend %font-caveat
+        
