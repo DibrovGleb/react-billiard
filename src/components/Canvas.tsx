@@ -11,22 +11,21 @@ const NewCanvas:FC = () => {
 
     for (let i = 0; i < 5; i++)
     for (let j = 0; j <= i; j++){
-        const x = 450+30*i,
-        y = 180+31*j-i*15,
-        rad = 15, 
-        vx = 0, vy = 0,
-        color = '#'+Math.floor(Math.random()*16777215).toString(16)
+        const  rad:number = 15, 
+        x:number = 450+rad*2*i,
+        y:number = 180+31*j-i*15,
+        vx:number = 0, vy:number = 0,
+        color:string = '#'+Math.floor(Math.random()*16777215).toString(16)
 
         balls.push(new Ball(x, y, rad, vx, vy, color))
     }
     balls.push(new Ball(155, 180, 15, 0, 0, '#fff'))
 
-
     useEffect(() => {
-        const canvas = ref.current
+        const canvas:HTMLCanvasElement|null = ref.current
         if (!canvas) return alert('canvas not found')
         
-        const ctx = canvas.getContext('2d')
+        const ctx:CanvasRenderingContext2D|null = canvas.getContext('2d')
         if (!ctx) return alert('ctx not found')
                 
         const anim = () =>{
@@ -42,17 +41,51 @@ const NewCanvas:FC = () => {
             requestAnimationFrame(anim)
         }
         anim()
-        canvas.addEventListener('mousemove', (e) => {
-            
+
+        /*canvas.addEventListener('mousemove', (e) => {
             e.preventDefault()
-            const rect = canvas.getBoundingClientRect()
-            const сx = e.clientX - rect.left
-            const сy = e.clientY - rect.top
+
+            const rect = canvas.getBoundingClientRect(),
+                  сx = e.clientX - rect.left,
+                  сy = e.clientY - rect.top
+
             for (let i = 0; i < balls.length; i++) {
-                balls[i].checkCursor(сx, сy)
+                balls[i].checkCursor(сx, сy, false)
             }
-        })
-    }, [])
+        })*/
+        
+        const changeColor = (e:MouseEvent) =>{
+            e.preventDefault()
+            const rect = canvas.getBoundingClientRect(),
+                  сx = e.clientX - rect.left,
+                  сy = e.clientY - rect.top
+            
+            for (let i = 0; i < balls.length; i++) {
+                balls[i].checkCursor(сx, сy, false)
+            }
+        }
+        const kickBall = (e:MouseEvent) =>{
+            e.preventDefault()
+
+            const rect = canvas.getBoundingClientRect(),
+                  сx = e.clientX - rect.left,
+                  сy = e.clientY - rect.top
+
+            for (let i = 0; i < balls.length; i++) {
+                balls[i].checkCursor(сx, сy, true)
+            }
+        }
+
+        canvas.addEventListener('click', kickBall)
+        canvas.addEventListener("contextmenu", changeColor)
+
+        return () => {
+            if (canvas) {
+                canvas.removeEventListener("contextmenu", changeColor)
+            }
+        }
+
+    }, [ref, balls, billboard])
     
 
     
@@ -86,26 +119,29 @@ class Ball {x: number; y: number; rad: number;
         if (this.vy < -maxSpeed) this.vy = -maxSpeed
         if (this.x < this.rad+20 || this.x > canvas.width - this.rad-20)this.vx = -this.vx
         if (this.y < this.rad+20 || this.y > canvas.height - this.rad-20)this.vy = -this.vy
-        if (Math.abs(this.vx) < 0.010) this.vx = 0
-        if (Math.abs(this.vy) < 0.010) this.vy = 0
+        if (Math.abs(this.vx) < 0.005) this.vx = 0
+        if (Math.abs(this.vy) < 0.005) this.vy = 0
         Math.abs(this.vx) == 0 ? 0 : this.vx > 0 ? this.vx-=0.01 : this.vx+=0.01
         Math.abs(this.vy) == 0 ? 0 : this.vy > 0 ? this.vy-=0.01 : this.vy+=0.01
         this.x += this.vx
         this.y += this.vy
     }
   
-    checkCursor(cx: number, cy: number){
-        const dx = cx - this.x, dy = cy - this.y, 
-              d = Math.sqrt(dx * dx + dy * dy)
-
+    checkCursor(cx: number, cy: number, state:boolean){
+        const dx:number = cx - this.x,
+              dy:number = cy - this.y, 
+              d:number = Math.sqrt(dx * dx + dy * dy)
+        
         if( d <= this.rad*1.3) {
-            this.vx += -dx*0.05
-            this.vy += -dy*0.05
+            if (state) this.vx += -dx*0.5, this.vy += -dy*0.5
+            else console.log(this.color)
         }
     }
+
     checkCollision(ball: Ball) {
-        const dx = this.x - ball.x, dy = this.y - ball.y, 
-        dist = Math.sqrt(dx * dx + dy * dy)
+        const dx:number = this.x - ball.x, 
+              dy:number = this.y - ball.y, 
+              dist:number = Math.sqrt(dx * dx + dy * dy)
 
         if (dist < this.rad + ball.rad) {
           const vx1 = this.x - ball.x,
@@ -115,7 +151,7 @@ class Ball {x: number; y: number; rad: number;
           ball.vx += -vx1*0.05
           ball.vy += -vy1*0.05
         }
-      }
+    }
 }
 
 export default NewCanvas
