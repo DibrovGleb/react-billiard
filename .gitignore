@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 # Files
-src/components/new_canvas.tsx
+src/components/test.tsx
